@@ -28,6 +28,8 @@ Functions implemented
 Examples
 --------
 
+### unnest_tokens
+
 
 ```python
 import pandas as pd
@@ -179,5 +181,105 @@ unnest_tokens(df, "word", "zen")
   </tbody>
 </table>
 <p>145 rows × 2 columns</p>
+
+
+
+### bind_tf_idf
+
+
+```python
+from tidytext import unnest_tokens, bind_tf_idf 
+from siuba import _, count, arrange
+
+(df
+  >> unnest_tokens(_.word, _.zen)
+  >> count(_.line, _.word)
+  >> bind_tf_idf(_.line, _.word, _.n)
+  >> arrange(-_.tf_idf)
+)
+```
+
+
+
+
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>line</th>
+      <th>word</th>
+      <th>n</th>
+      <th>tf</th>
+      <th>idf</th>
+      <th>tf_idf</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>37</th>
+      <td>9</td>
+      <td>counts</td>
+      <td>1</td>
+      <td>1.0</td>
+      <td>3.749504</td>
+      <td>3.749504</td>
+    </tr>
+    <tr>
+      <th>38</th>
+      <td>9</td>
+      <td>readability</td>
+      <td>1</td>
+      <td>1.0</td>
+      <td>3.749504</td>
+      <td>3.749504</td>
+    </tr>
+    <tr>
+      <th>56</th>
+      <td>13</td>
+      <td>explicitly</td>
+      <td>1</td>
+      <td>1.0</td>
+      <td>3.344039</td>
+      <td>3.344039</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>99</th>
+      <td>18</td>
+      <td>is</td>
+      <td>1</td>
+      <td>0.1</td>
+      <td>2.363210</td>
+      <td>0.236321</td>
+    </tr>
+    <tr>
+      <th>112</th>
+      <td>19</td>
+      <td>is</td>
+      <td>1</td>
+      <td>0.1</td>
+      <td>2.044756</td>
+      <td>0.204476</td>
+    </tr>
+    <tr>
+      <th>124</th>
+      <td>20</td>
+      <td>is</td>
+      <td>1</td>
+      <td>0.1</td>
+      <td>1.877702</td>
+      <td>0.187770</td>
+    </tr>
+  </tbody>
+</table>
+<p>140 rows × 6 columns</p>
 
 
