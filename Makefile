@@ -7,7 +7,10 @@ build: hoof.py
 	python setup.py build sdist
 
 README.md: README.Rmd
-	jupytext --from Rmd --to ipynb --output - $^ \
-		| jupyter nbconvert --stdin --to markdown --execute --output $@
+	jupytext --from Rmd --to ipynb --output - $^ | \
+		jupyter nbconvert --stdin --to markdown \
+		--TagRemovePreprocessor.remove_input_tags="{'hide-input'}" \
+	    --execute --output $@
+
 	
 

@@ -30,8 +30,28 @@ Functions implemented
 Examples
 --------
 
+```{python tags=c("hide-input")}
+import pandas as pd
+
+# DataFrame display --------
+pd.set_option("display.max_rows", 6)
+from IPython import get_ipython
+
+# special ipython function to get the html formatter
+html_formatter = get_ipython().display_formatter.formatters['text/html']
+
+# here, we avoid the default df._repr_html_ method, since it inlines css
+# (which makes github angry)
+html_formatter.for_type(
+    pd.DataFrame,
+    lambda df: df.to_html(max_rows = pd.get_option("display.max_rows"), show_dimensions = True)
+)
+```
+
 ```{python}
 import pandas as pd
+
+pd.set_option("display.max_rows", 6)
 
 zen = """
 The Zen of Python, by Tim Peters

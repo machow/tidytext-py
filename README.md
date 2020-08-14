@@ -32,6 +32,8 @@ Examples
 ```python
 import pandas as pd
 
+pd.set_option("display.max_rows", 6)
+
 zen = """
 The Zen of Python, by Tim Peters
 
@@ -70,20 +72,6 @@ df
 
 
 
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
 <table border="1" class="dataframe">
   <thead>
     <tr style="text-align: right;">
@@ -109,103 +97,28 @@ df
       <td>2</td>
     </tr>
     <tr>
-      <th>3</th>
-      <td>Beautiful is better than ugly.</td>
-      <td>3</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>Explicit is better than implicit.</td>
-      <td>4</td>
-    </tr>
-    <tr>
-      <th>5</th>
-      <td>Simple is better than complex.</td>
-      <td>5</td>
-    </tr>
-    <tr>
-      <th>6</th>
-      <td>Complex is better than complicated.</td>
-      <td>6</td>
-    </tr>
-    <tr>
-      <th>7</th>
-      <td>Flat is better than nested.</td>
-      <td>7</td>
-    </tr>
-    <tr>
-      <th>8</th>
-      <td>Sparse is better than dense.</td>
-      <td>8</td>
-    </tr>
-    <tr>
-      <th>9</th>
-      <td>Readability counts.</td>
-      <td>9</td>
-    </tr>
-    <tr>
-      <th>10</th>
-      <td>Special cases aren't special enough to break t...</td>
-      <td>10</td>
-    </tr>
-    <tr>
-      <th>11</th>
-      <td>Although practicality beats purity.</td>
-      <td>11</td>
-    </tr>
-    <tr>
-      <th>12</th>
-      <td>Errors should never pass silently.</td>
-      <td>12</td>
-    </tr>
-    <tr>
-      <th>13</th>
-      <td>Unless explicitly silenced.</td>
-      <td>13</td>
-    </tr>
-    <tr>
-      <th>14</th>
-      <td>In the face of ambiguity, refuse the temptatio...</td>
-      <td>14</td>
-    </tr>
-    <tr>
-      <th>15</th>
-      <td>There should be one-- and preferably only one ...</td>
-      <td>15</td>
-    </tr>
-    <tr>
-      <th>16</th>
-      <td>Although that way may not be obvious at first ...</td>
-      <td>16</td>
-    </tr>
-    <tr>
-      <th>17</th>
-      <td>Now is better than never.</td>
-      <td>17</td>
-    </tr>
-    <tr>
-      <th>18</th>
-      <td>Although never is often better than *right* now.</td>
-      <td>18</td>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
     </tr>
     <tr>
       <th>19</th>
-      <td>If the implementation is hard to explain, it's...</td>
+      <td>If the implementation is hard to explain, it's a bad idea.</td>
       <td>19</td>
     </tr>
     <tr>
       <th>20</th>
-      <td>If the implementation is easy to explain, it m...</td>
+      <td>If the implementation is easy to explain, it may be a good idea.</td>
       <td>20</td>
     </tr>
     <tr>
       <th>21</th>
-      <td>Namespaces are one honking great idea -- let's...</td>
+      <td>Namespaces are one honking great idea -- let's do more of those!</td>
       <td>21</td>
     </tr>
   </tbody>
 </table>
-</div>
+<p>22 rows × 2 columns</p>
 
 
 
@@ -219,20 +132,6 @@ unnest_tokens(df, "word", "zen")
 
 
 
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
 <table border="1" class="dataframe">
   <thead>
     <tr style="text-align: right;">
@@ -258,29 +157,9 @@ unnest_tokens(df, "word", "zen")
       <td>zen</td>
     </tr>
     <tr>
-      <th>1</th>
-      <td>1</td>
-      <td>of</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>1</td>
-      <td>python</td>
-    </tr>
-    <tr>
       <th>...</th>
       <td>...</td>
       <td>...</td>
-    </tr>
-    <tr>
-      <th>21</th>
-      <td>21</td>
-      <td>lets</td>
-    </tr>
-    <tr>
-      <th>21</th>
-      <td>21</td>
-      <td>do</td>
     </tr>
     <tr>
       <th>21</th>
@@ -300,6 +179,5 @@ unnest_tokens(df, "word", "zen")
   </tbody>
 </table>
 <p>145 rows × 2 columns</p>
-</div>
 
 
