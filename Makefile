@@ -2,7 +2,7 @@ all: docs
 
 docs: README.md
 
-build: hoof.py
+build: 	tidytext.py
 	mkdir -p dist && rm -r dist/*
 	python setup.py build sdist
 

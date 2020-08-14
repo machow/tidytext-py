@@ -106,7 +106,7 @@ from siuba import _, count, arrange
 (df
   >> unnest_tokens(_.word, _.zen)
   >> count(_.line, _.word)
-  >> bind_tf_idf(_.line, _.word, _.n)
+  >> bind_tf_idf(_.word, _.line, _.n)
   >> arrange(-_.tf_idf)
 )
 ```

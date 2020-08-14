@@ -194,7 +194,7 @@ from siuba import _, count, arrange
 (df
   >> unnest_tokens(_.word, _.zen)
   >> count(_.line, _.word)
-  >> bind_tf_idf(_.line, _.word, _.n)
+  >> bind_tf_idf(_.word, _.line, _.n)
   >> arrange(-_.tf_idf)
 )
 ```
@@ -220,27 +220,27 @@ from siuba import _, count, arrange
       <td>9</td>
       <td>counts</td>
       <td>1</td>
-      <td>1.0</td>
-      <td>3.749504</td>
-      <td>3.749504</td>
+      <td>0.500000</td>
+      <td>2.995732</td>
+      <td>1.497866</td>
     </tr>
     <tr>
       <th>38</th>
       <td>9</td>
       <td>readability</td>
       <td>1</td>
-      <td>1.0</td>
-      <td>3.749504</td>
-      <td>3.749504</td>
+      <td>0.500000</td>
+      <td>2.995732</td>
+      <td>1.497866</td>
     </tr>
     <tr>
       <th>56</th>
       <td>13</td>
       <td>explicitly</td>
       <td>1</td>
-      <td>1.0</td>
-      <td>3.344039</td>
-      <td>3.344039</td>
+      <td>0.333333</td>
+      <td>2.995732</td>
+      <td>0.998577</td>
     </tr>
     <tr>
       <th>...</th>
@@ -256,27 +256,27 @@ from siuba import _, count, arrange
       <td>18</td>
       <td>is</td>
       <td>1</td>
-      <td>0.1</td>
-      <td>2.363210</td>
-      <td>0.236321</td>
+      <td>0.125000</td>
+      <td>0.693147</td>
+      <td>0.086643</td>
     </tr>
     <tr>
       <th>112</th>
       <td>19</td>
       <td>is</td>
       <td>1</td>
-      <td>0.1</td>
-      <td>2.044756</td>
-      <td>0.204476</td>
+      <td>0.090909</td>
+      <td>0.693147</td>
+      <td>0.063013</td>
     </tr>
     <tr>
       <th>124</th>
       <td>20</td>
       <td>is</td>
       <td>1</td>
-      <td>0.1</td>
-      <td>1.877702</td>
-      <td>0.187770</td>
+      <td>0.076923</td>
+      <td>0.693147</td>
+      <td>0.053319</td>
     </tr>
   </tbody>
 </table>
