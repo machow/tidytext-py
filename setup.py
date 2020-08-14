@@ -14,7 +14,7 @@ with open('README.md') as f:
     README = f.read()
 
 setup(
-    name='tidytext-py',
+    name='tidytext',
     version=version,
     py_modules=["tidytext"],
     install_requires=['siuba'],
@@ -23,6 +23,6 @@ setup(
     author_email='mc_al_github@fastmail.com',
     long_description=README,
     long_description_content_type="text/markdown",
-    url='https://github.com/machow/tidytuesday-py'
+    url='https://github.com/machow/tidytext-py'
     )
 

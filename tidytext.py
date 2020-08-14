@@ -3,11 +3,12 @@ __version__ = "0.0.1"
 import string
 import numpy as np
 
-from siuba.dply.verbs import singledispatch2
-from pandas import DataFrame
+from siuba.dply.verbs import singledispatch2, simple_varname
+from siuba.siu import symbolic_dispatch
+
+from pandas import DataFrame, Categorical, Series
 from pandas.core.groupby import DataFrameGroupBy
 
-from siuba.dply.verbs import simple_varname
 from nltk import tokenize
 
 
@@ -25,6 +26,9 @@ TOKEN_OPTIONS = {
       }
 
 PUNCTUATION_MAP = str.maketrans(dict.fromkeys(string.punctuation))
+
+
+# unnest_tokens ---------------------------------------------------------------
 
 def _get_tokenizer(token, remove_punc = True, mapping = TOKEN_OPTIONS):
     # see https://stackoverflow.com/q/15547409/1144523 
@@ -75,6 +79,11 @@ def unnest_tokens(
 
     return out_df
 
+@unnest_tokens.register(DataFrameGroupBy)
+def _unnest_tokens_gdf(__data, *args, **kwargs):
+    raise NotImplementedError("TODO: grouped DataFrame not supported")
+
+# bind_tf_idf -----------------------------------------------------------------
 
 @singledispatch2(DataFrame)
 def bind_tf_idf(__data, term, document, n):
@@ -110,4 +119,57 @@ def bind_tf_idf(__data, term, document, n):
 def _bind_tf_idf_gdf(__data, term, document, n):
     res = bind_tf_idf(__data.obj, term, document, n)
     return res.groupby(__data.grouper)
+
+
+# get_stopwords ---------------------------------------------------------------
+
+def get_stopwords(language = "english", lexicon = 'nltk'):
+    """Get stopwords for a language.
+
+    Note: this is a thin wrapper around nltk, which contains a single corpus of
+          stopwords in 11 languages. Their documentation cites "Porter et al".
+          For context, see https://stackoverflow.com/a/53545959/1144523
+    """
+    if lexicon != 'nltk':
+        raise NotImplementedError("Currently only one lexicon available (nltk)")
+
+    from nltk.corpus import stopwords
+    return DataFrame({
+        "word": stopwords.words(language),
+        "lexicon": lexicon
+        })
+
+
+import numpy as np
+import re
+from functools import partial
+
+@symbolic_dispatch
+def reorder_within(x, by, within, fun = np.mean, sep = "___"):
+    ser = x.str.cat(within, sep = sep)
+
+    agg_res = by.groupby(ser.array).agg(fun)
+
+    return Categorical(
+            ser,
+            categories = agg_res.sort_values().index
+            )
+
+def _sub_labels(sep, labels):
+    reg = "{}.+$".format(sep)
+    return [re.sub(reg, "", entry) for entry in labels]
+
+
+def scale_x_reordered(*args, sep = "___", **kwargs):
+    import plotnine
+
+    # TODO: could bind params to func and check if it will get two labels args
+    return plotnine.scale_x_discrete(*args, labels = partial(_sub_labels, sep), **kwargs)
+
+
+def scale_y_reordered(*args, sep = "___", **kwargs):
+    import plotnine
+
+    # TODO: could bind params to func and check if it will get two labels args
+    return plotnine.scale_y_discrete(*args, labels = partial(_sub_labels, sep), **kwargs)
 

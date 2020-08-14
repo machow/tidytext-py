@@ -1,0 +1,103 @@
+---
+title: "The Office"
+output: html_document
+---
+
+```{r}
+from schrutepy import schrutepy
+import pandas as pd
+
+office_transcripts_raw = schrutepy.load_schrute()
+```
+
+```{r}
+office_transcripts_raw.info()
+```
+
+```{r}
+from siuba import _, mutate, group_by, filter, select, anti_join, ungroup, add_count, count, arrange, top_n
+from siuba.experimental.pd_groups import fast_filter as filter
+from siuba.dply.vector import n
+from tidytext import unnest_tokens, bind_tf_idf, get_stopwords, reorder_within
+
+office_transcripts = office_transcripts_raw >> mutate(
+    character=_.character.str.replace('"', ""),
+    name=_.episode_name.str.replace("\\.| \\(Part.*", ""),
+)
+```
+
+```{r}
+blacklist = ["yeah", "hey", "uh", "gonna"]
+blacklist_characters = ["Everyone", "All", "Both", "Guy", "Girl", "Group"]
+
+# TODO: getting bigger list of stopwords directly from tidytext repo for now
+# stopwords = get_stopwords()
+stopwords = pd.read_csv(
+    "https://raw.githubusercontent.com/juliasilge/tidytext/master/data-raw/stop_words.csv"
+)
+
+
+transcript_words = (
+    office_transcripts
+    >> group_by(_.character)
+    >> filter(n(_.character) >= 100, _.episode_name.nunique() > 2, _.text.notna())
+    >> ungroup()
+    >> select(-_.text_w_direction)
+    >> unnest_tokens(_.word, _.text)
+    >> anti_join(_, stopwords, on="word")
+    >> filter(~_.word.isin(blacklist), ~_.character.isin(blacklist_characters))
+)
+
+transcript_words.head()
+```
+
+```{r}
+character_tf_idf = (
+    transcript_words
+    >> add_count(_.word)
+    >> filter(_.n >= 20)
+    >> count(_.word, _.character)
+    >> bind_tf_idf(_.word, _.character, _.n)
+    >> arrange(-_.tf_idf)
+)
+
+character_tf_idf
+```
+
+```{r}
+from plotnine import *
+from tidytext import scale_x_reordered, reorder_within
+
+theme_set(theme_light())
+
+(
+    character_tf_idf
+    >> filter(
+        _.character.isin(["Dwight", "Jim", "David Wallace", "Darryl", "Jan", "Holly"])
+    )
+    >> group_by(_.character)
+    >> top_n(10, _.tf_idf)
+    >> ungroup()
+    >> mutate(word=reorder_within(_.word, _.tf_idf, _.character))
+    >> ggplot(aes("word", "tf_idf"))
+    + geom_col()
+    + coord_flip()
+    + scale_x_reordered()
+    + facet_wrap("~ character", scales="free_y")
+    + theme(subplots_adjust={"wspace": 0.75})
+    + labs(x="", y="TF-IDF of character-word pairs")
+)
+```
+
+## Investigate why David Wallace has quotation mark
+
+tidytext manually strips out punctuation, but currently only strips out punctuation in ascii form.
+Since the quotation mark is a utf character, it doesn't get stripped :/.
+
+```{r}
+character_tf_idf >> filter(_.character == "David Wallace")
+```
+
+```{r}
+office_transcripts >> filter(_.character == "David Wallace", _.text.str.contains("”"))
+```

@@ -3,7 +3,7 @@ all: docs
 docs: README.md
 
 build: 	tidytext.py
-	mkdir -p dist && rm -r dist/*
+	mkdir -p dist && rm -rf dist/*
 	python setup.py build sdist
 
 README.md: README.Rmd
