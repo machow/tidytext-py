@@ -71,7 +71,6 @@ six==1.15.0
 SQLAlchemy==1.3.18
 statsmodels==0.11.1
 testpath==0.4.4
-tidytext==0.0.1
 toml==0.10.1
 tornado==6.0.4
 tqdm==4.48.2
