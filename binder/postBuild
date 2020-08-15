@@ -1,2 +1,2 @@
 python -c "import nltk; nltk.download('stopwords'); nltk.download('punkt')"
-pip install -e ../
+pip install -e ./
