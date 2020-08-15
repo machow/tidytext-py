@@ -66,13 +66,12 @@ requests-toolbelt==0.9.1
 rfc3986==1.4.0
 schrutepy==0.1.1
 scipy==1.5.2
--e git+git@github.com:machow/siuba.git@92169aa56dc73ee3786e1a0ce1e37b6c7590d033#egg=siuba
+siuba==0.0.23
 six==1.15.0
 SQLAlchemy==1.3.18
 statsmodels==0.11.1
 testpath==0.4.4
 tidytext==0.0.1
--e git+git@github.com:machow/tidytext-py.git@0c230dd2b09cfc42124b3957e2abbe3774647ca4#egg=tidytext_py
 toml==0.10.1
 tornado==6.0.4
 tqdm==4.48.2
