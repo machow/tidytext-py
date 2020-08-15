@@ -1,1 +1,1 @@
-python3 -m nltk downloader punkt stopwords
+python -c "import nltk; nltk.download('stopwords'); nltk.download('punkt')"
