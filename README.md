@@ -1,6 +1,8 @@
 tidytext-py
 ===========
 
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/machow/tidytext-py/master)
+
 Handy text processing in python, using pandas DataFrames.
 
 This library is a python port of the [R package tidytext](https://github.com/juliasilge/tidytext). 
