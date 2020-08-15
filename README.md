@@ -7,7 +7,6 @@ Handy text processing in python, using pandas DataFrames.
 
 This library is a python port of the [R package tidytext](https://github.com/juliasilge/tidytext). 
 
-
 Install
 -------
 
@@ -31,7 +30,7 @@ Functions implemented
 Examples
 --------
 
-Check out the [examples folder in using binder](https://mybinder.org/v2/gh/machow/tidytext-py/master?urlpath=notebooks/examples).
+Check out the [examples folder using binder](https://mybinder.org/v2/gh/machow/tidytext-py/master?urlpath=notebooks/examples).
 
 ### unnest_tokens
 
